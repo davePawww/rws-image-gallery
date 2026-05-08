@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 import avatarImg from '@/assets/dave.jpeg';
-import SocialsIcon from '@/components/layout/components/socials-icon';
+import SocialsIcon from '@/components/layout/socials-icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Social } from '@/types/common.types';
 
