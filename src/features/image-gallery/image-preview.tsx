@@ -11,11 +11,12 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
-import type { ImagePreviewProps } from '@/types/image-gallery.types';
 
-export function ImagePreview({ open, onOpenChange }: ImagePreviewProps) {
+export function ImagePreview() {
   const pendingImages = useImageGalleryStore((state) => state.pendingImages);
   const addImage = useImageGalleryStore((state) => state.addImage);
+  const previewOpen = useImageGalleryStore((state) => state.previewOpen);
+  const setPreviewOpen = useImageGalleryStore((state) => state.setPreviewOpen);
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentImage = pendingImages[currentIndex];
 
@@ -25,7 +26,7 @@ export function ImagePreview({ open, onOpenChange }: ImagePreviewProps) {
 
     if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
-      onOpenChange(false);
+      setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);
     }
@@ -36,7 +37,7 @@ export function ImagePreview({ open, onOpenChange }: ImagePreviewProps) {
 
     if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
-      onOpenChange(false);
+      setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);
     }
@@ -45,7 +46,7 @@ export function ImagePreview({ open, onOpenChange }: ImagePreviewProps) {
   if (!currentImage) return null;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
       <AnimatePresence>
         <motion.div
           key={currentImage.id}

@@ -7,14 +7,11 @@ export type Image = {
   tags: string[];
 };
 
-export type ImagePreviewProps = {
-  open: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 export type ImageGalleryStore = {
   images: Image[];
   pendingImages: Image[];
+  previewOpen: boolean;
   addPendingImage: (image: Image) => void;
   addImage: (image: Image) => void;
+  setPreviewOpen: (open: boolean) => void;
 };

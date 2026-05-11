@@ -1,10 +1,11 @@
-import { Gallery, UploadZone } from '@/features/image-gallery';
+import { Gallery, ImagePreview, UploadZone } from '@/features/image-gallery';
 
 export default function ImageGalleryPage() {
   return (
     <>
       <UploadZone />
       <Gallery />
+      <ImagePreview />
     </>
   );
 }
