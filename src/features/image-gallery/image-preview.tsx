@@ -10,14 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import type { Image } from '@/types/image-gallery.types';
-
-export type ImagePreviewProps = {
-  images: Image[];
-  open: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  onConfirmImages: React.Dispatch<React.SetStateAction<Image[]>>;
-};
+import type { ImagePreviewProps } from '@/types/image-gallery.types';
 
 export function ImagePreview({ images, open, onOpenChange, onConfirmImages }: ImagePreviewProps) {
   const [currentIndex, setCurrentIndex] = useState(0);

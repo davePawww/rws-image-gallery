@@ -6,3 +6,10 @@ export type Image = {
   date: string;
   tags: string[];
 };
+
+export type ImagePreviewProps = {
+  images: Image[];
+  open: boolean;
+  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
+  onConfirmImages: React.Dispatch<React.SetStateAction<Image[]>>;
+};
