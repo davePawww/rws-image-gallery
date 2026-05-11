@@ -10,26 +10,25 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import type { Image } from '@/types/image-gallery.types';
+import { useImageGalleryStore } from '@/store/image-gallery.store';
 
-export type ImagePreviewProps = {
-  images: Image[];
-  open: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  onConfirmImages: React.Dispatch<React.SetStateAction<Image[]>>;
-};
-
-export function ImagePreview({ images, open, onOpenChange, onConfirmImages }: ImagePreviewProps) {
+export function ImagePreview() {
+  const pendingImages = useImageGalleryStore((state) => state.pendingImages);
+  const clearPendingImages = useImageGalleryStore((state) => state.clearPendingImages);
+  const addImage = useImageGalleryStore((state) => state.addImage);
+  const previewOpen = useImageGalleryStore((state) => state.previewOpen);
+  const setPreviewOpen = useImageGalleryStore((state) => state.setPreviewOpen);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentImage = images[currentIndex];
+  const currentImage = pendingImages[currentIndex];
 
   const handleConfirm = () => {
-    onConfirmImages((prev) => [...prev, currentImage]);
+    addImage(currentImage);
     const nextIndex = currentIndex + 1;
 
-    if (nextIndex >= images.length) {
+    if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
-      onOpenChange(false);
+      clearPendingImages();
+      setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);
     }
@@ -38,9 +37,10 @@ export function ImagePreview({ images, open, onOpenChange, onConfirmImages }: Im
   const handleReject = () => {
     const nextIndex = currentIndex + 1;
 
-    if (nextIndex >= images.length) {
+    if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
-      onOpenChange(false);
+      clearPendingImages();
+      setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);
     }
@@ -49,7 +49,7 @@ export function ImagePreview({ images, open, onOpenChange, onConfirmImages }: Im
   if (!currentImage) return null;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
       <AnimatePresence>
         <motion.div
           key={currentImage.id}
