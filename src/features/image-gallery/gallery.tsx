@@ -1,4 +1,13 @@
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemHeader,
+  ItemTitle,
+} from '@/components/ui/item';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
+import { formatDate, formatFileSize } from '@/utils/format';
 
 export function Gallery() {
   const images = useImageGalleryStore((state) => state.images);
@@ -6,17 +15,28 @@ export function Gallery() {
   return (
     <div>
       {images.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <ItemGroup className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {images.map((image) => (
-            <div key={image.id} className="relative h-80 w-full overflow-hidden rounded-md">
-              <img
-                src={image.src}
-                alt={image.name}
-                className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-              />
-            </div>
+            <Item key={image.id} variant="outline">
+              <ItemHeader>
+                <img
+                  src={image.src}
+                  alt={image.name}
+                  width={128}
+                  height={128}
+                  className="aspect-square w-full rounded-sm object-cover"
+                />
+              </ItemHeader>
+              <ItemContent>
+                <ItemTitle>{image.name}</ItemTitle>
+                <ItemDescription>
+                  <p>{formatDate(image.date)}</p>
+                  <p>{formatFileSize(image.size)}</p>
+                </ItemDescription>
+              </ItemContent>
+            </Item>
           ))}
-        </div>
+        </ItemGroup>
       )}
     </div>
   );
