@@ -14,6 +14,7 @@ import { useImageGalleryStore } from '@/store/image-gallery.store';
 
 export function ImagePreview() {
   const pendingImages = useImageGalleryStore((state) => state.pendingImages);
+  const clearPendingImages = useImageGalleryStore((state) => state.clearPendingImages);
   const addImage = useImageGalleryStore((state) => state.addImage);
   const previewOpen = useImageGalleryStore((state) => state.previewOpen);
   const setPreviewOpen = useImageGalleryStore((state) => state.setPreviewOpen);
@@ -26,6 +27,7 @@ export function ImagePreview() {
 
     if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
+      clearPendingImages();
       setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);
@@ -37,6 +39,7 @@ export function ImagePreview() {
 
     if (nextIndex >= pendingImages.length) {
       setCurrentIndex(0);
+      clearPendingImages();
       setPreviewOpen(false);
     } else {
       setCurrentIndex(nextIndex);

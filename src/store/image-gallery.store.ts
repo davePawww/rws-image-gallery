@@ -10,4 +10,5 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
     set((state) => ({ pendingImages: [...state.pendingImages, image] })),
   addImage: (image: Image) => set((state) => ({ images: [...state.images, image] })),
   setPreviewOpen: (open: boolean) => set({ previewOpen: open }),
+  clearPendingImages: () => set({ pendingImages: [] }),
 }));

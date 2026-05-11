@@ -14,4 +14,5 @@ export type ImageGalleryStore = {
   addPendingImage: (image: Image) => void;
   addImage: (image: Image) => void;
   setPreviewOpen: (open: boolean) => void;
+  clearPendingImages: () => void;
 };
