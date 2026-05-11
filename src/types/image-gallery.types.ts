@@ -13,3 +13,8 @@ export type ImagePreviewProps = {
   onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
   onConfirmImages: React.Dispatch<React.SetStateAction<Image[]>>;
 };
+
+export type ImageGalleryStore = {
+  pendingImages: Image[];
+  addPendingImage: (image: Image) => void;
+};

@@ -5,12 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ImagePreview } from '@/features/image-gallery/image-preview';
 import { cn } from '@/lib/utils';
+import { useImageGalleryStore } from '@/store/image-gallery.store';
 import type { Image } from '@/types/image-gallery.types';
 
 export function UploadZone() {
+  const pendingImages = useImageGalleryStore((state) => state.pendingImages);
+  const addPendingImage = useImageGalleryStore((state) => state.addPendingImage);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
-  const [pendingImages, setPendingImages] = useState<Image[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
   const processFiles = (files: File[]) => {
@@ -20,17 +22,14 @@ export function UploadZone() {
     images.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setPendingImages((prevImages) => [
-          ...prevImages,
-          {
-            id: Date.now() + Math.random(),
-            src: e.target?.result as string,
-            name: file.name,
-            size: file.size,
-            date: new Date().toISOString(),
-            tags: [],
-          },
-        ]);
+        addPendingImage({
+          id: Date.now() + Math.random(),
+          src: e.target?.result as string,
+          name: file.name,
+          size: file.size,
+          date: new Date().toISOString(),
+          tags: [],
+        });
       };
       reader.readAsDataURL(file);
     });
