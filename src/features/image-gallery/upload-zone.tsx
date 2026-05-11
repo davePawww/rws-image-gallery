@@ -7,33 +7,13 @@ import { ImagePreview } from '@/features/image-gallery/image-preview';
 import { cn } from '@/lib/utils';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
 import type { Image } from '@/types/image-gallery.types';
+import { processInputFiles } from '@/utils/process-input-files';
 
 export function UploadZone() {
   const pendingImages = useImageGalleryStore((state) => state.pendingImages);
-  const addPendingImage = useImageGalleryStore((state) => state.addPendingImage);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-
-  const processFiles = (files: File[]) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-    const images = Array.from(files).filter((file) => allowedTypes.includes(file.type));
-
-    images.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        addPendingImage({
-          id: Date.now() + Math.random(),
-          src: e.target?.result as string,
-          name: file.name,
-          size: file.size,
-          date: new Date().toISOString(),
-          tags: [],
-        });
-      };
-      reader.readAsDataURL(file);
-    });
-  };
 
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
@@ -47,12 +27,12 @@ export function UploadZone() {
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    processFiles(Array.from(e.dataTransfer.files));
+    processInputFiles(Array.from(e.dataTransfer.files));
     setPreviewOpen(true);
   };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    processFiles(Array.from(e.target.files || []));
+    processInputFiles(Array.from(e.target.files || []));
     setPreviewOpen(true);
     e.target.value = '';
   };
