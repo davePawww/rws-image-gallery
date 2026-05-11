@@ -8,13 +8,13 @@ export type Image = {
 };
 
 export type ImagePreviewProps = {
-  images: Image[];
   open: boolean;
   onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  onConfirmImages: React.Dispatch<React.SetStateAction<Image[]>>;
 };
 
 export type ImageGalleryStore = {
+  images: Image[];
   pendingImages: Image[];
   addPendingImage: (image: Image) => void;
+  addImage: (image: Image) => void;
 };
