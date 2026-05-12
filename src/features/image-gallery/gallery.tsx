@@ -1,7 +1,11 @@
+import { EyeIcon, Trash2 } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 import {
   Item,
   ItemContent,
   ItemDescription,
+  ItemFooter,
   ItemGroup,
   ItemHeader,
   ItemTitle,
@@ -11,6 +15,7 @@ import { formatDate, formatFileSize } from '@/utils/format';
 
 export function Gallery() {
   const images = useImageGalleryStore((state) => state.images);
+  const removeImage = useImageGalleryStore((state) => state.removeImage);
 
   return (
     <div>
@@ -29,11 +34,18 @@ export function Gallery() {
               </ItemHeader>
               <ItemContent>
                 <ItemTitle>{image.name}</ItemTitle>
-                <ItemDescription>
-                  <p>{formatDate(image.date)}</p>
-                  <p>{formatFileSize(image.size)}</p>
+                <ItemDescription className="text-xs">
+                  {formatDate(image.date)} - {formatFileSize(image.size)}
                 </ItemDescription>
               </ItemContent>
+              <ItemFooter className="flex justify-end">
+                <Button variant="outline" size="icon">
+                  <EyeIcon />
+                </Button>
+                <Button variant="destructive" size="icon" onClick={() => removeImage(image.id)}>
+                  <Trash2 />
+                </Button>
+              </ItemFooter>
             </Item>
           ))}
         </ItemGroup>
