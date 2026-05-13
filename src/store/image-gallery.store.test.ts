@@ -77,4 +77,34 @@ describe('useImageGallery store', () => {
     useImageGalleryStore.getState().removeImage(5);
     expect(useImageGalleryStore.getState().images).toHaveLength(0);
   });
+
+  it('adds tags to pendingImages', () => {
+    useImageGalleryStore.getState().addPendingImage({
+      id: 1,
+      src: 'test.jpg',
+      name: 'Test Image',
+      size: 1024,
+      date: '2023-01-01',
+      tags: [],
+    });
+
+    useImageGalleryStore.getState().addPendingImageTag(1, 'test');
+
+    expect(useImageGalleryStore.getState().pendingImages[0].tags).toHaveLength(1);
+    expect(useImageGalleryStore.getState().pendingImages[0].tags[0]).toBe('test');
+  });
+
+  it('removes tags from pendingImages', () => {
+    useImageGalleryStore.getState().addPendingImage({
+      id: 1,
+      src: 'test.jpg',
+      name: 'Test Image',
+      size: 1024,
+      date: '2023-01-01',
+      tags: ['test'],
+    });
+
+    useImageGalleryStore.getState().removePendingImageTag(1, 'test');
+    expect(useImageGalleryStore.getState().pendingImages[0].tags).toHaveLength(0);
+  });
 });
