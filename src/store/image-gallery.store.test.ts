@@ -107,4 +107,10 @@ describe('useImageGallery store', () => {
     useImageGalleryStore.getState().removePendingImageTag(1, 'test');
     expect(useImageGalleryStore.getState().pendingImages[0].tags).toHaveLength(0);
   });
+
+  it('updates the filter', () => {
+    useImageGalleryStore.getState().updateFilter('test');
+
+    expect(useImageGalleryStore.getState().filter).toBe('test');
+  });
 });
