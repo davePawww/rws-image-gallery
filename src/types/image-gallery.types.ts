@@ -16,4 +16,6 @@ export type ImageGalleryStore = {
   setPreviewOpen: (open: boolean) => void;
   clearPendingImages: () => void;
   removeImage: (id: number) => void;
+  addPendingImageTag: (id: number, tag: string) => void;
+  removePendingImageTag: (id: number, tag: string) => void;
 };

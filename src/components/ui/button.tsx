@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Slot } from 'radix-ui';
 import * as React from 'react';
 
-import { buttonVariants } from '@/components/ui/buttonVariants';
+import { buttonVariants } from '@/components/ui/variants';
 import { cn } from '@/lib/utils';
 
 function Button({

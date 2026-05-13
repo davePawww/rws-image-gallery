@@ -1,5 +1,6 @@
 import { EyeIcon, Trash2 } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Item,
@@ -10,6 +11,7 @@ import {
   ItemHeader,
   ItemTitle,
 } from '@/components/ui/item';
+import { Label } from '@/components/ui/label';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
 import { formatDate, formatFileSize } from '@/utils/format';
 
@@ -23,7 +25,11 @@ export function Gallery() {
         <ItemGroup className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {images.map((image) => (
             <Item key={image.id} variant="outline">
-              <ItemHeader>
+              <ItemHeader className="flex flex-col">
+                <ItemTitle className="line-clamp-1">{image.name}</ItemTitle>
+                <ItemDescription className="text-xs">
+                  Size: {formatFileSize(image.size)} | Date: {formatDate(image.date)}
+                </ItemDescription>
                 <img
                   src={image.src}
                   alt={image.name}
@@ -33,10 +39,16 @@ export function Gallery() {
                 />
               </ItemHeader>
               <ItemContent>
-                <ItemTitle>{image.name}</ItemTitle>
-                <ItemDescription className="text-xs">
-                  {formatDate(image.date)} - {formatFileSize(image.size)}
-                </ItemDescription>
+                {image.tags.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-1">
+                    <Label className="text-xs">Tags: </Label>
+                    {image.tags.map((tag, i) => (
+                      <Badge key={i} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </ItemContent>
               <ItemFooter className="flex justify-end">
                 <Button variant="outline" size="icon" aria-label={`Preview ${image.name}`}>

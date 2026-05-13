@@ -13,4 +13,16 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
   clearPendingImages: () => set({ pendingImages: [] }),
   removeImage: (id: number) =>
     set((state) => ({ images: state.images.filter((img) => img.id !== id) })),
+  addPendingImageTag: (id: number, tag: string) =>
+    set((state) => ({
+      pendingImages: state.pendingImages.map((img) =>
+        img.id === id ? { ...img, tags: [...img.tags, tag] } : img,
+      ),
+    })),
+  removePendingImageTag: (id: number, tag: string) =>
+    set((state) => ({
+      pendingImages: state.pendingImages.map((img) =>
+        img.id === id ? { ...img, tags: img.tags.filter((t) => t !== tag) } : img,
+      ),
+    })),
 }));
