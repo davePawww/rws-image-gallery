@@ -6,6 +6,7 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
   images: [],
   pendingImages: [],
   previewOpen: false,
+  filter: null,
   addPendingImage: (image: Image) =>
     set((state) => ({ pendingImages: [...state.pendingImages, image] })),
   addImage: (image: Image) => set((state) => ({ images: [...state.images, image] })),
@@ -25,4 +26,5 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
         img.id === id ? { ...img, tags: img.tags.filter((t) => t !== tag) } : img,
       ),
     })),
+  updateFilter: (newFilter: string) => set({ filter: newFilter }),
 }));

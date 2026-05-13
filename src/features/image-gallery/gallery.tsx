@@ -17,18 +17,23 @@ import { formatDate, formatFileSize } from '@/utils/format';
 
 export function Gallery() {
   const images = useImageGalleryStore((state) => state.images);
+  const filter = useImageGalleryStore((state) => state.filter);
   const removeImage = useImageGalleryStore((state) => state.removeImage);
+  const filteredImages = images.filter((img) =>
+    filter !== null ? img.tags.includes(filter) : img,
+  );
 
   return (
     <div>
-      {images.length > 0 && (
+      {filteredImages.length > 0 && (
         <ItemGroup className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {images.map((image) => (
+          {filteredImages.map((image) => (
             <Item key={image.id} variant="outline">
-              <ItemHeader className="flex flex-col">
+              <ItemHeader className="flex flex-col items-start">
                 <ItemTitle className="line-clamp-1">{image.name}</ItemTitle>
-                <ItemDescription className="text-xs">
-                  Size: {formatFileSize(image.size)} | Date: {formatDate(image.date)}
+                <ItemDescription className="line-clamp-none text-xs">
+                  <span className="block">Date: {formatDate(image.date)}</span>
+                  <span>Size: {formatFileSize(image.size)}</span>
                 </ItemDescription>
                 <img
                   src={image.src}

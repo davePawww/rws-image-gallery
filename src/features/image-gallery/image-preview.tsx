@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -75,9 +74,10 @@ export function ImagePreview() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="line-clamp-1 w-5/6">{currentImage.name}</DialogTitle>
-              <DialogDescription>
-                Size: {formatFileSize(currentImage.size)} | Date: {formatDate(currentImage.date)}
-              </DialogDescription>
+              <div className="text-muted-foreground text-xs">
+                <p>Date: {formatDate(currentImage.date)}</p>
+                <p>Size: {formatFileSize(currentImage.size)}</p>
+              </div>
             </DialogHeader>
             <div>
               <img
