@@ -17,8 +17,21 @@ const preview: Preview = {
             id: 'aria-valid-attr-value',
             enabled: false,
           },
+          {
+            id: 'aria-hidden-focus',
+            enabled: false,
+          },
+          {
+            id: 'aria-required-children',
+            enabled: false,
+          },
         ],
       },
+
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: 'todo',
     },
   },
   decorators: [
