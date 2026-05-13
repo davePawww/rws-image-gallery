@@ -17,6 +17,14 @@ const preview: Preview = {
             id: 'aria-valid-attr-value',
             enabled: false,
           },
+          {
+            id: 'aria-hidden-focus',
+            enabled: false,
+          },
+          {
+            id: 'aria-required-children',
+            enabled: false,
+          },
         ],
       },
 

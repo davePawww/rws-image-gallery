@@ -39,10 +39,15 @@ export function Gallery() {
                 </ItemDescription>
               </ItemContent>
               <ItemFooter className="flex justify-end">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" aria-label={`Preview ${image.name}`}>
                   <EyeIcon />
                 </Button>
-                <Button variant="destructive" size="icon" onClick={() => removeImage(image.id)}>
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  aria-label={`Delete ${image.name}`}
+                  onClick={() => removeImage(image.id)}
+                >
                   <Trash2 />
                 </Button>
               </ItemFooter>
