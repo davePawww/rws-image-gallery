@@ -1,5 +1,6 @@
 import { EyeIcon, Trash2 } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Item,
@@ -10,20 +11,27 @@ import {
   ItemHeader,
   ItemTitle,
 } from '@/components/ui/item';
+import { Label } from '@/components/ui/label';
+import { useFilteredImages } from '@/hooks/use-filtered-images';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
 import { formatDate, formatFileSize } from '@/utils/format';
 
 export function Gallery() {
-  const images = useImageGalleryStore((state) => state.images);
+  const filteredImages = useFilteredImages();
   const removeImage = useImageGalleryStore((state) => state.removeImage);
 
   return (
     <div>
-      {images.length > 0 && (
+      {filteredImages.length > 0 && (
         <ItemGroup className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {images.map((image) => (
+          {filteredImages.map((image) => (
             <Item key={image.id} variant="outline">
-              <ItemHeader>
+              <ItemHeader className="flex flex-col items-start">
+                <ItemTitle className="line-clamp-1">{image.name}</ItemTitle>
+                <ItemDescription className="line-clamp-none text-xs">
+                  <span className="block">Date: {formatDate(image.date)}</span>
+                  <span>Size: {formatFileSize(image.size)}</span>
+                </ItemDescription>
                 <img
                   src={image.src}
                   alt={image.name}
@@ -33,10 +41,16 @@ export function Gallery() {
                 />
               </ItemHeader>
               <ItemContent>
-                <ItemTitle>{image.name}</ItemTitle>
-                <ItemDescription className="text-xs">
-                  {formatDate(image.date)} - {formatFileSize(image.size)}
-                </ItemDescription>
+                {image.tags.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-1">
+                    <Label className="text-xs">Tags: </Label>
+                    {image.tags.map((tag, i) => (
+                      <Badge key={i} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </ItemContent>
               <ItemFooter className="flex justify-end">
                 <Button variant="outline" size="icon" aria-label={`Preview ${image.name}`}>

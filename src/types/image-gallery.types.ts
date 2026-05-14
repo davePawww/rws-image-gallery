@@ -11,9 +11,15 @@ export type ImageGalleryStore = {
   images: Image[];
   pendingImages: Image[];
   previewOpen: boolean;
+  filter: string;
+  searchQuery: string;
   addPendingImage: (image: Image) => void;
   addImage: (image: Image) => void;
   setPreviewOpen: (open: boolean) => void;
   clearPendingImages: () => void;
   removeImage: (id: number) => void;
+  addPendingImageTag: (id: number, tag: string) => void;
+  removePendingImageTag: (id: number, tag: string) => void;
+  updateFilter: (newFilter: string) => void;
+  setSearchQuery: (query: string) => void;
 };

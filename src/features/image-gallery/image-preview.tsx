@@ -1,16 +1,21 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
+import { formatDate, formatFileSize } from '@/utils/format';
 
 export function ImagePreview() {
   const pendingImages = useImageGalleryStore((state) => state.pendingImages);
@@ -18,6 +23,8 @@ export function ImagePreview() {
   const addImage = useImageGalleryStore((state) => state.addImage);
   const previewOpen = useImageGalleryStore((state) => state.previewOpen);
   const setPreviewOpen = useImageGalleryStore((state) => state.setPreviewOpen);
+  const addPendingImageTag = useImageGalleryStore((state) => state.addPendingImageTag);
+  const removePendingImageTag = useImageGalleryStore((state) => state.removePendingImageTag);
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentImage = pendingImages[currentIndex];
 
@@ -46,6 +53,13 @@ export function ImagePreview() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+      addPendingImageTag(currentImage.id, e.currentTarget.value.trim());
+      e.currentTarget.value = '';
+    }
+  };
+
   if (!currentImage) return null;
 
   return (
@@ -58,12 +72,12 @@ export function ImagePreview() {
           exit={{ opacity: 0, x: -30 }}
           transition={{ type: 'tween', ease: 'circOut', duration: 0.6 }}
         >
-          <DialogContent>
+          <DialogContent aria-describedby="Image details">
             <DialogHeader>
-              <DialogTitle>{currentImage.name}</DialogTitle>
-              <DialogDescription>
-                Size: {(currentImage.size / 1024).toFixed(2)} KB | Date:{' '}
-                {new Date(currentImage.date).toLocaleString()}
+              <DialogTitle className="line-clamp-1 w-5/6">{currentImage.name}</DialogTitle>
+              <DialogDescription className="text-muted-foreground text-xs">
+                <span>Date: {formatDate(currentImage.date)}</span>
+                <span>Size: {formatFileSize(currentImage.size)}</span>
               </DialogDescription>
             </DialogHeader>
             <div>
@@ -72,6 +86,31 @@ export function ImagePreview() {
                 alt={currentImage.name}
                 className="h-96 w-full rounded-md object-cover"
               />
+            </div>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="tags">Tags:</Label>
+              <div className="focus-within:border-ring focus-within:ring-ring/50 border-input flex w-full flex-wrap items-center gap-1.5 rounded-lg border bg-transparent px-2.5 py-1 focus-within:ring-3">
+                {currentImage.tags.map((tag, i) => (
+                  <Badge key={i} data-icon="inline-end" variant="outline">
+                    {tag}
+                    <Separator orientation="vertical" />
+                    <Button
+                      variant="ghost"
+                      className="px-0"
+                      onClick={() => removePendingImageTag(currentImage.id, tag)}
+                    >
+                      ×
+                    </Button>
+                  </Badge>
+                ))}
+                <Input
+                  type="text"
+                  id="tags"
+                  className="h-auto w-auto flex-1 border-none bg-transparent px-0 py-0 focus-visible:border-transparent focus-visible:ring-0 dark:bg-transparent"
+                  placeholder={currentImage.tags.length === 0 ? 'Add a tag…' : ''}
+                  onKeyDown={handleKeyDown}
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={handleConfirm}>
