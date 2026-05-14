@@ -27,6 +27,7 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
         img.id === id ? { ...img, tags: img.tags.filter((t) => t !== tag) } : img,
       ),
     })),
-  updateFilter: (newFilter: string) => set({ filter: newFilter }),
+  updateFilter: (newFilter: string) =>
+    set((state) => ({ filter: newFilter !== state.filter ? newFilter : '' })),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 }));

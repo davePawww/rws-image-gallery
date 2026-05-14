@@ -109,8 +109,14 @@ describe('useImageGallery store', () => {
   });
 
   it('updates the filter', () => {
+    useImageGalleryStore.setState({
+      filter: 'test',
+    });
     useImageGalleryStore.getState().updateFilter('test');
 
-    expect(useImageGalleryStore.getState().filter).toBe('test');
+    expect(useImageGalleryStore.getState().filter).toBe('');
+
+    useImageGalleryStore.getState().updateFilter('test2');
+    expect(useImageGalleryStore.getState().filter).toBe('test2');
   });
 });
