@@ -12,19 +12,13 @@ import {
   ItemTitle,
 } from '@/components/ui/item';
 import { Label } from '@/components/ui/label';
-import { useDebounce } from '@/hooks/use-debounce';
+import { useFilteredImages } from '@/hooks/use-filtered-images';
 import { useImageGalleryStore } from '@/store/image-gallery.store';
 import { formatDate, formatFileSize } from '@/utils/format';
 
 export function Gallery() {
-  const images = useImageGalleryStore((state) => state.images);
-  const filter = useImageGalleryStore((state) => state.filter);
+  const filteredImages = useFilteredImages();
   const removeImage = useImageGalleryStore((state) => state.removeImage);
-  const searchQuery = useImageGalleryStore((state) => state.searchQuery);
-  const debouncedValue = useDebounce(searchQuery, 500);
-  const filteredImages = images
-    .filter((img) => (filter ? img.tags.includes(filter) : img))
-    .filter((img) => img.name.toLocaleLowerCase().includes(debouncedValue.toLocaleLowerCase()));
 
   return (
     <div>
