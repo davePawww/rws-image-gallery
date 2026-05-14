@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -71,13 +72,13 @@ export function ImagePreview() {
           exit={{ opacity: 0, x: -30 }}
           transition={{ type: 'tween', ease: 'circOut', duration: 0.6 }}
         >
-          <DialogContent>
+          <DialogContent aria-describedby="Image details">
             <DialogHeader>
               <DialogTitle className="line-clamp-1 w-5/6">{currentImage.name}</DialogTitle>
-              <div className="text-muted-foreground text-xs">
-                <p>Date: {formatDate(currentImage.date)}</p>
-                <p>Size: {formatFileSize(currentImage.size)}</p>
-              </div>
+              <DialogDescription className="text-muted-foreground text-xs">
+                <span>Date: {formatDate(currentImage.date)}</span>
+                <span>Size: {formatFileSize(currentImage.size)}</span>
+              </DialogDescription>
             </DialogHeader>
             <div>
               <img
