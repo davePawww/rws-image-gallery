@@ -76,7 +76,7 @@ export function ImagePreview() {
             <DialogHeader>
               <DialogTitle className="line-clamp-1 w-5/6">{currentImage.name}</DialogTitle>
               <DialogDescription className="text-muted-foreground text-xs">
-                <span>Date: {formatDate(currentImage.date)}</span>
+                <span className="block">Date: {formatDate(currentImage.date)}</span>
                 <span>Size: {formatFileSize(currentImage.size)}</span>
               </DialogDescription>
             </DialogHeader>

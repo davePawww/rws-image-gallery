@@ -5,13 +5,17 @@ import type { ImageGalleryStore, Image } from '@/types/image-gallery.types';
 export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
   images: [],
   pendingImages: [],
+  selectedImageIdx: null,
   previewOpen: false,
+  lightboxOpen: false,
   filter: '',
   searchQuery: '',
+  addImage: (image: Image) => set((state) => ({ images: [...state.images, image] })),
   addPendingImage: (image: Image) =>
     set((state) => ({ pendingImages: [...state.pendingImages, image] })),
-  addImage: (image: Image) => set((state) => ({ images: [...state.images, image] })),
+  setSelectedImageIdx: (idx: number) => set({ selectedImageIdx: idx }),
   setPreviewOpen: (open: boolean) => set({ previewOpen: open }),
+  setLightboxOpen: (open: boolean) => set({ lightboxOpen: open }),
   clearPendingImages: () => set({ pendingImages: [] }),
   removeImage: (id: number) =>
     set((state) => ({ images: state.images.filter((img) => img.id !== id) })),
