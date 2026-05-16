@@ -1,12 +1,20 @@
+import { lazy, Suspense } from 'react';
+
 import {
   Count,
   Filter,
-  Gallery,
+  GallerySkeleton,
   ImagePreview,
   Lightbox,
   Search,
   UploadZone,
 } from '@/features/image-gallery';
+
+const Gallery = lazy(async () => {
+  const module = await import('@/features/image-gallery/gallery');
+
+  return { default: module.Gallery };
+});
 
 export default function ImageGalleryPage() {
   return (
@@ -17,7 +25,9 @@ export default function ImageGalleryPage() {
         <Filter />
         <Count />
       </div>
-      <Gallery />
+      <Suspense fallback={<GallerySkeleton />}>
+        <Gallery />
+      </Suspense>
       <ImagePreview />
       <Lightbox />
     </>

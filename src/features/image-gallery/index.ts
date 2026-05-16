@@ -5,3 +5,5 @@ export { Filter } from '@/features/image-gallery/filter';
 export { Search } from '@/features/image-gallery/search';
 export { Count } from '@/features/image-gallery/count';
 export { Lightbox } from '@/features/image-gallery/lightbox';
+export { GallerySkeleton, GalleryItemSkeleton } from '@/features/image-gallery/skeleton';
+export { GalleryItem } from '@/features/image-gallery/gallery-item';
