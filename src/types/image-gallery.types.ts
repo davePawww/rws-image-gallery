@@ -27,3 +27,8 @@ export type ImageGalleryStore = {
   updateFilter: (newFilter: string) => void;
   setSearchQuery: (query: string) => void;
 };
+
+export type GalleryItemProps = {
+  image: Image;
+  idx: number;
+};
