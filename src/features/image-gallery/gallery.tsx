@@ -19,12 +19,14 @@ import { formatDate, formatFileSize } from '@/utils/format';
 export function Gallery() {
   const filteredImages = useFilteredImages();
   const removeImage = useImageGalleryStore((state) => state.removeImage);
+  const setLightboxOpen = useImageGalleryStore((state) => state.setLightboxOpen);
+  const setSelectedImageIdx = useImageGalleryStore((state) => state.setSelectedImageIdx);
 
   return (
     <div>
       {filteredImages.length > 0 && (
         <ItemGroup className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {filteredImages.map((image) => (
+          {filteredImages.map((image, idx) => (
             <Item key={image.id} variant="outline">
               <ItemHeader className="flex flex-col items-start">
                 <ItemTitle className="line-clamp-1">{image.name}</ItemTitle>
@@ -53,7 +55,15 @@ export function Gallery() {
                 )}
               </ItemContent>
               <ItemFooter className="flex justify-end">
-                <Button variant="outline" size="icon" aria-label={`Preview ${image.name}`}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label={`Preview ${image.name}`}
+                  onClick={() => {
+                    setSelectedImageIdx(idx);
+                    setLightboxOpen(true);
+                  }}
+                >
                   <EyeIcon />
                 </Button>
                 <Button

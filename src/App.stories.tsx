@@ -58,3 +58,15 @@ export const WithImages: Story = {
     },
   ],
 };
+export const Lightbox: Story = {
+  decorators: [
+    (Story) => {
+      useImageGalleryStore.setState({
+        images: mockImages,
+        selectedImageIdx: 0,
+        lightboxOpen: true,
+      });
+      return <Story />;
+    },
+  ],
+};
