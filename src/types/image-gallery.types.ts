@@ -39,3 +39,10 @@ export type EditImageDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
+export type CompressOptions = {
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: number;
+  format?: 'image/jpeg' | 'image/png';
+};

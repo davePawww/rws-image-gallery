@@ -1,3 +1,5 @@
+import type { CompressOptions } from '@/types/image-gallery.types';
+
 export async function rotateImage(src: string, degrees: 90 | 180 | 270): Promise<string> {
   const img = await loadImage(src);
   const canvas = document.createElement('canvas');
@@ -41,6 +43,34 @@ export async function cropImage(
   );
 
   return canvas.toDataURL('image/png');
+}
+
+export async function compressImage(
+  dataUrl: string,
+  options: CompressOptions = {},
+): Promise<string> {
+  const { maxWidth = 1920, maxHeight = 1920, quality = 0.8, format = 'image/jpeg' } = options;
+
+  const img = await loadImage(dataUrl);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  let { naturalWidth: width, naturalHeight: height } = img;
+
+  if (width > maxWidth) {
+    height = Math.round((height * maxWidth) / width);
+    width = maxWidth;
+  }
+  if (height > maxHeight) {
+    width = Math.round((width * maxHeight) / height);
+    height = maxHeight;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(img, 0, 0, width, height);
+
+  return canvas.toDataURL(format, quality);
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
