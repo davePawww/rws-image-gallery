@@ -26,9 +26,16 @@ export type ImageGalleryStore = {
   removePendingImageTag: (id: number, tag: string) => void;
   updateFilter: (newFilter: string) => void;
   setSearchQuery: (query: string) => void;
+  updateImage: (id: number, updates: Partial<Pick<Image, 'src' | 'name' | 'size'>>) => void;
 };
 
 export type GalleryItemProps = {
   image: Image;
   idx: number;
+};
+
+export type EditImageDialogProps = {
+  image: Image;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };

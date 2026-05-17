@@ -34,4 +34,8 @@ export const useImageGalleryStore = create<ImageGalleryStore>((set) => ({
   updateFilter: (newFilter: string) =>
     set((state) => ({ filter: newFilter !== state.filter ? newFilter : '' })),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
+  updateImage: (id, updates) =>
+    set((state) => ({
+      images: state.images.map((img) => (img.id === id ? { ...img, ...updates } : img)),
+    })),
 }));

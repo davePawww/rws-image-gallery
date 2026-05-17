@@ -7,3 +7,4 @@ export { Count } from '@/features/image-gallery/count';
 export { Lightbox } from '@/features/image-gallery/lightbox';
 export { GallerySkeleton, GalleryItemSkeleton } from '@/features/image-gallery/skeleton';
 export { GalleryItem } from '@/features/image-gallery/gallery-item';
+export { EditImageDialog } from '@/features/image-gallery/edit-image-dialog';
