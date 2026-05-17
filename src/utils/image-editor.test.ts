@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { cropImage, rotateImage } from '@/utils/image-editor';
+import { compressImage, cropImage, rotateImage } from '@/utils/image-editor';
 
 let mockContext: {
   translate: ReturnType<typeof vi.fn>;
@@ -90,5 +90,35 @@ describe('cropImage', () => {
       80,
       60, // dest w, h
     );
+  });
+});
+
+describe('compressImage', () => {
+  it('returns a data URL string', async () => {
+    const result = await compressImage('data:image/jpeg;base64,abc');
+    expect(result).toBe('data:image/png;base64,mock');
+  });
+
+  it('draws the image onto the canvas', async () => {
+    await compressImage('data:image/jpeg;base64,abc');
+    expect(mockContext.drawImage).toHaveBeenCalledOnce();
+  });
+
+  it('uses original dimensions when image is within limits', async () => {
+    await compressImage('data:image/jpeg;base64,abc', {
+      maxWidth: 2000,
+      maxHeight: 2000,
+    });
+
+    expect(mockContext.drawImage).toHaveBeenCalledWith(expect.anything(), 0, 0, 200, 100);
+  });
+
+  it('calls toDataURL with the specified format and quality', async () => {
+    const toDataURLSpy = vi.spyOn(HTMLCanvasElement.prototype, 'toDataURL');
+    await compressImage('data:image/jpeg;base64,abc', {
+      format: 'image/jpeg',
+      quality: 0.5,
+    });
+    expect(toDataURLSpy).toHaveBeenCalledWith('image/jpeg', 0.5);
   });
 });

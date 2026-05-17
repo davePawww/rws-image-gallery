@@ -1,4 +1,5 @@
 import type { Image } from '@/types/image-gallery.types';
+import { compressImage } from '@/utils/image-editor';
 
 export async function processInputFiles(files: File[]): Promise<Image[]> {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -7,12 +8,14 @@ export async function processInputFiles(files: File[]): Promise<Image[]> {
 
   for (const file of filtered) {
     try {
-      const src = await readFileAsDataURL(file);
+      const dataUrl = await readFileAsDataURL(file);
+      const compressed = await compressImage(dataUrl);
+      const blob = await (await fetch(compressed)).blob();
       results.push({
         id: Date.now() + Math.random(),
-        src,
+        src: compressed,
         name: file.name,
-        size: file.size,
+        size: blob.size,
         date: new Date().toISOString(),
         tags: [],
       });
